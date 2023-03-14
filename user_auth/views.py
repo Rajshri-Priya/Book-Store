@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
-
 class RegistrationAPIView(APIView):
     """
          Class is to register for the user
@@ -23,6 +22,7 @@ class RegistrationAPIView(APIView):
         except Exception as e:
             # logger.exception(e)
             return Response({"success": False, "message": str(e), "status": 400}, status=400)
+
 
 class LoginAPIView(APIView):
     """
@@ -47,10 +47,12 @@ class LoginAPIView(APIView):
             # logger.exception(e)
             return Response({"success": False, "message": str(e), "status": 401}, status=401)
 
-class LogoutView(APIView):
+
+class LogoutAPIView(APIView):
     """
         This class is used for the User logout
     """
+
     def get(self, request):
         try:
             # Check if user is authenticated

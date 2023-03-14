@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'user_auth',
     'book',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'user_auth.CustomUser'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'user_auth.csrf_utils.CsrfExemptSessionAuthentication',  # Add this line
+    ],
+}

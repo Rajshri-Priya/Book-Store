@@ -1,7 +1,11 @@
+from logging_config.logger import get_logger
 from user_auth.serializers import LoginSerializer, RegistrationSerializer
 from django.contrib.auth import login, logout
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+# logging config
+logger = get_logger()
 
 
 class RegistrationAPIView(APIView):
@@ -20,7 +24,7 @@ class RegistrationAPIView(APIView):
                              "status": 201}, status=201)
 
         except Exception as e:
-            # logger.exception(e)
+            logger.exception(e)
             return Response({"success": False, "message": str(e), "status": 400}, status=400)
 
 
@@ -30,10 +34,6 @@ class LoginAPIView(APIView):
     """
     serializer_class = LoginSerializer
 
-    # authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticated]
-
-    # @swagger_auto_schema(request_body=LoginSerializer, operation_summary='POST User Login')
     def post(self, request):
         try:
             serializer = LoginSerializer(data=request.data)
@@ -44,7 +44,7 @@ class LoginAPIView(APIView):
             return Response({"success": True, "message": "Login Successfully", "user": user, "status": 201},
                             status=201)
         except Exception as e:
-            # logger.exception(e)
+            logger.exception(e)
             return Response({"success": False, "message": str(e), "status": 401}, status=401)
 
 
@@ -64,5 +64,5 @@ class LogoutAPIView(APIView):
             else:
                 return Response({'message': 'You are not logged in.'})
         except Exception as e:
-            # logger.exception(e)
+            logger.exception(e)
             return Response({'message': 'An error occurred during logout: {}'.format(str(e))})

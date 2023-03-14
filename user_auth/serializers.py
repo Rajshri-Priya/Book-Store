@@ -13,8 +13,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return CustomUser.objects.create_user(**validated_data)
-    
-    
+
+
 class LoginSerializer(serializers.Serializer):
     """validation by manually"""
 

@@ -41,7 +41,7 @@ class LoginAPIView(APIView):
             serializer.save()
             user = serializer.context.get('user')
             login(request, user)
-            return Response({"success": True, "message": "Login Successfully", "user": user, "status": 201},
+            return Response({"success": True, "message": "Login Successfully", "status": 201},
                             status=201)
         except Exception as e:
             logger.exception(e)

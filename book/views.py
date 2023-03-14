@@ -3,10 +3,15 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from book.models import Book
 from book.serializers import BookSerializer
+from logging_config.logger import get_logger
+
+# logging config
+logger = get_logger()
 
 
 # Create your views here.
 class BookAPI(APIView):
+    serializer_class = BookSerializer
 
     def post(self, request):
         try:
@@ -16,7 +21,7 @@ class BookAPI(APIView):
             serializer.save()
             return Response({"Message": "Book created successfully", 'data': serializer.data, 'status': 201})
         except Exception as e:
-            # logging.error(e)
+            logger.error(e)
             return Response({"message": str(e)}, status=400)
 
     def get(self, request):
@@ -25,7 +30,7 @@ class BookAPI(APIView):
             serializer = BookSerializer(books, many=True)
             return Response({"Message": "All Books are", 'data': serializer.data, 'status': 200})
         except Exception as e:
-            # logging.error(e)
+            logger.error(e)
             return Response({"message": str(e)}, status=400)
 
     def put(self, request, pk):
@@ -37,7 +42,7 @@ class BookAPI(APIView):
             serializer.save()
             return Response({"Message": "Book updated successfully", 'data': serializer.data, 'status': 200})
         except Exception as e:
-            # logging.error(e)
+            logger.error(e)
             return Response({"message": str(e)}, status=400)
 
     def delete(self, request, pk):
@@ -46,5 +51,5 @@ class BookAPI(APIView):
             book.delete()
             return Response({"Message": "Book deleted successfully", 'status': 200})
         except Exception as e:
-            # logging.error(e)
+            logger.error(e)
             return Response({"message": str(e)}, status=400)

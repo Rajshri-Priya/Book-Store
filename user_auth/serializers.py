@@ -1,4 +1,4 @@
-from bookstore.user_auth.models import CustomUser
+from .models import CustomUser
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 

@@ -1,4 +1,4 @@
-from bookstore.user_auth.serializers import LoginSerializer, RegistrationSerializer
+from user_auth.serializers import LoginSerializer, RegistrationSerializer
 from django.contrib.auth import login, logout
 from rest_framework.response import Response
 from rest_framework.views import APIView

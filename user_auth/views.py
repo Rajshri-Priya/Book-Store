@@ -1,3 +1,5 @@
+from drf_yasg.utils import swagger_auto_schema
+
 from logging_config.logger import get_logger
 from user_auth.serializers import LoginSerializer, RegistrationSerializer
 from django.contrib.auth import login, logout
@@ -14,6 +16,7 @@ class RegistrationAPIView(APIView):
     """
     serializer_class = RegistrationSerializer
 
+    @swagger_auto_schema(request_body=RegistrationSerializer, operation_summary='POST User Registeration')
     def post(self, request):
         try:
             serializer = RegistrationSerializer(data=request.data)
@@ -34,6 +37,7 @@ class LoginAPIView(APIView):
     """
     serializer_class = LoginSerializer
 
+    @swagger_auto_schema(request_body=LoginSerializer, operation_summary='POST User Login')
     def post(self, request):
         try:
             serializer = LoginSerializer(data=request.data)

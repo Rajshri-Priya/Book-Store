@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from book.models import Book
@@ -13,6 +14,7 @@ logger = get_logger()
 class BookAPI(APIView):
     serializer_class = BookSerializer
 
+    @swagger_auto_schema(request_body=BookSerializer, operation_summary='POST Book Created')
     def post(self, request):
         try:
             request.data.update({'user': request.user.id})
@@ -33,6 +35,7 @@ class BookAPI(APIView):
             logger.error(e)
             return Response({"message": str(e)}, status=400)
 
+    @swagger_auto_schema(request_body=BookSerializer, operation_summary='Book Updated')
     def put(self, request, pk):
         try:
             request.data.update({'user': request.user.id})
@@ -45,6 +48,7 @@ class BookAPI(APIView):
             logger.error(e)
             return Response({"message": str(e)}, status=400)
 
+    @swagger_auto_schema(request_body=BookSerializer, operation_summary='Book Deleted')
     def delete(self, request, pk):
         try:
             book = Book.objects.get(id=pk, user=request.user)

@@ -18,6 +18,7 @@ from django.urls import path, include
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
+# from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 # Define the schema view for Swagger
 schema_view = get_schema_view(
@@ -40,6 +41,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('user_auth.urls')),
     path('books/', include('book.urls')),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('cart_app/', include('cartapp.urls')),
+    # Obtain JWT token
+    # path('api-token-auth/', obtain_jwt_token),
+    # # Refresh JWT token
+    # path('api-token-refresh/', refresh_jwt_token),
+    # # Verify JWT token
+    # path('api-token-verify/', verify_jwt_token),
+    # path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
 ]

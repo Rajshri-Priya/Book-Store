@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'user_auth',
     'book',
     'drf_yasg',
+    'cartapp',
 ]
 
 MIDDLEWARE = [

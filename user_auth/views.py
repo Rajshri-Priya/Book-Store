@@ -1,6 +1,6 @@
 from drf_yasg.utils import swagger_auto_schema
-
 from logging_config.logger import get_logger
+from user_auth.JWTutils import JWT
 from user_auth.serializers import LoginSerializer, RegistrationSerializer
 from django.contrib.auth import login, logout
 from rest_framework.response import Response
@@ -43,9 +43,11 @@ class LoginAPIView(APIView):
             serializer = LoginSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
+            print(serializer.data.get("id"))
             user = serializer.context.get('user')
             login(request, user)
-            return Response({"success": True, "message": "Login Successfully", "status": 201},
+            token = JWT().encode(data={"user_id": user.id})
+            return Response({"success": True, "message": "Login Successfully", "token": token, "status": 201},
                             status=201)
         except Exception as e:
             logger.exception(e)

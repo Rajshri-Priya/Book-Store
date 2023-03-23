@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
 from logging_config.logger import get_logger
+from user_auth.JWTutils import verify_token
 from .models import Cart, CartItem, OrderedItem
 from .serializers import CartSerializer, CartItemSerializer2, CheckoutSerializer, OrderedItemSerializer
 
@@ -10,6 +10,7 @@ logger = get_logger()
 
 
 class ViewCartAPIView(APIView):
+    @verify_token
     def get(self, request):
         try:
             user = request.user
@@ -23,7 +24,7 @@ class ViewCartAPIView(APIView):
 
 
 class AddToCartAPIView(APIView):
-
+    @verify_token
     def post(self, request):
         try:
             serializer = CartItemSerializer2(data=request.data, context={"user": request.user})
@@ -37,6 +38,7 @@ class AddToCartAPIView(APIView):
 
 
 class CartItemUpdateView(APIView):
+    @verify_token
     def put(self, request, cart_item_id):
         try:
             cart = Cart.objects.get(user=request.user.id, status='active')
@@ -53,6 +55,7 @@ class CartItemUpdateView(APIView):
 
 
 class CartItemDeleteView(APIView):
+    @verify_token
     def delete(self, request, cart_item_id):
         try:
             cart = Cart.objects.get(user=request.user.id, status='active')
@@ -69,6 +72,7 @@ class CartItemDeleteView(APIView):
 
 
 class CheckoutView(APIView):
+    @verify_token
     def post(self, request):
         try:
             user = request.user
@@ -86,6 +90,7 @@ class CheckoutView(APIView):
             logger.exception(e)
             return Response({"success": False, "message": e.args[0], "status": 400}, status=400)
 
+    @verify_token
     def get(self, request):
         try:
             user = request.user
@@ -99,6 +104,7 @@ class CheckoutView(APIView):
 
 
 class CancelOrderedItemView(APIView):
+    @verify_token
     def put(self, request, ordered_item_id):
         try:
             user = request.user
@@ -121,4 +127,3 @@ class CancelOrderedItemView(APIView):
         except Exception as e:
             logger.exception(e)
             return Response({"success": False, "message": e.args[0], "status": 400}, status=400)
-
